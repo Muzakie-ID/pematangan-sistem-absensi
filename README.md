@@ -481,3 +481,217 @@ project_absensi_guru/
 ├── README.md                    # Dokumentasi proyek
 └── LICENSE                      # Lisensi
 ```
+
+======================================================================================================================================
+
+
+ **rancangan komponen per halaman (versi awal / draft 1)** untuk sistem absensi guru ini 👇
+
+---
+
+## 🧩 1. **Halaman Login**
+
+**Tujuan:** autentikasi semua role (Superadmin, Guru Piket, Siswa)
+
+**Komponen:**
+
+* Input `Username / Email`
+* Input `Password`
+* Tombol `Login`
+* Pesan error (jika username/password salah)
+* Footer kecil berisi nama sistem & versi
+
+---
+
+## 🧩 2. **Dashboard Superadmin**
+
+**Tujuan:** memantau seluruh aktivitas sistem
+
+**Komponen utama:**
+
+* Ringkasan harian:
+
+  * Total guru hadir / izin / sakit / alpa
+  * Total guru yang mengajar hari ini
+  * Total kelas aktif KBM
+* Statistik singkat (chart):
+
+  * Grafik kehadiran guru mingguan
+  * Grafik aktivitas guru piket (berapa kali update)
+* Tabel log aktivitas terbaru:
+
+  * Kolom: `Nama Guru Piket`, `Aksi`, `Waktu`
+  * Dibatasi 10-20 entri terakhir
+* Tombol “Lihat Semua Log” → ke halaman log lengkap
+
+---
+
+## 🧩 3. **Dashboard Guru Piket**
+
+**Tujuan:** akses cepat ke dua mode absensi (kantor dan kelas)
+
+**Komponen:**
+
+* Banner info hari & tanggal (contoh: *Kamis, 13 November 2025*)
+* Status “Upacara Hari Ini” (switch aktif/tidak)
+* Tombol besar (2 menu utama):
+
+  * `Absensi Guru Hadir Kantor`
+  * `Absensi Guru Mengajar di Kelas`
+* Ringkasan singkat:
+
+  * Jumlah guru hadir / izin / sakit
+  * Jumlah kelas aktif / non-KBM
+* Peringatan kalau ada data belum diisi hari itu
+
+---
+
+## 🧩 4. **Halaman Absensi Guru di Kantor**
+
+**Tujuan:** mencatat kehadiran guru (hadir, izin, sakit, alpa)
+
+**Komponen:**
+
+* Dropdown pilih tanggal (default: hari ini)
+* Tabel guru:
+
+  * Kolom: `No`, `Nama Guru`, `Status Kehadiran`, `Keterangan`
+  * Pilihan status:
+
+    * ✅ Hadir
+    * 🚫 Tidak Hadir
+    * 💊 Sakit
+    * 🏖️ Izin
+  * Kolom “Keterangan” (input teks opsional)
+  * Semua perubahan **auto-save tanpa tombol Submit**
+* Notifikasi kecil “Data tersimpan otomatis”
+* Tombol filter (opsional): “Tampilkan hanya yang belum diisi”
+
+---
+
+## 🧩 5. **Halaman Absensi Guru Mengajar di Kelas**
+
+**Tujuan:** mencatat apakah guru benar-benar mengajar di jam pelajarannya
+
+**Komponen:**
+
+* Pilihan tanggal (default hari ini)
+* Dropdown `Kelas` → menampilkan semua kelas aktif hari itu
+* Tabel per kelas:
+
+  * Kolom: `Jam Ke`, `Mapel`, `Guru`, `Status KBM`, `Guru Mengajar`
+  * Switch “KBM Aktif” (kalau kelas sedang kegiatan seperti PKL → nonaktif)
+  * Switch “Guru Mengajar” (diaktifkan manual oleh guru piket)
+* Semua update **auto-save**
+* Info “Data ini masih bisa diubah sampai pergantian hari”
+
+---
+
+## 🧩 6. **Halaman Jadwal Mapel**
+
+**Tujuan:** mengatur jadwal pelajaran per kelas, termasuk guru & jam pelajaran
+
+**Komponen:**
+
+* Dropdown `Kelas`
+* Tombol `Tambah Jadwal`
+* Form input jadwal:
+
+  * Pilih `Hari`
+  * Pilih `Jam ke-berapa (dari – sampai)`
+  * Pilih `Mapel`
+  * Pilih `Guru` (bisa multi-guru)
+* Tabel jadwal per kelas:
+
+  * Kolom: `Hari`, `Jam Ke`, `Mapel`, `Guru`, `Aksi (edit/delete)`
+* Tombol `Export Jadwal (Excel)` untuk superadmin
+* Validasi agar jam tidak bentrok di kelas yang sama
+
+---
+
+## 🧩 7. **Halaman Data Guru**
+
+**Tujuan:** mengelola data seluruh guru
+
+**Komponen:**
+
+* Tombol `Tambah Guru`
+* Kolom data:
+
+  * `NIP`, `Nama`, `Mapel`, `Status`, `Username`, `Aksi`
+* Fitur pencarian dan filter
+* Aksi: edit / hapus guru
+* (Opsional) import Excel untuk menambah guru massal
+
+---
+
+## 🧩 8. **Halaman Kelas**
+
+**Tujuan:** mengelola data kelas & jurusan
+
+**Komponen:**
+
+* Tombol `Tambah Kelas`
+* Kolom: `Kode`, `Nama Kelas`, `Jurusan`, `Wali Kelas`, `Aksi`
+* (Opsional) checkbox aktif/nonaktif untuk kelas tertentu (misal sudah lulus)
+
+---
+
+## 🧩 9. **Halaman Mapel**
+
+**Tujuan:** mengelola daftar mata pelajaran
+
+**Komponen:**
+
+* Tombol `Tambah Mapel`
+* Kolom: `Kode`, `Nama Mapel`, `Kategori (Umum / Kejuruan)`, `Aksi`
+* Bisa dikaitkan ke banyak guru
+
+---
+
+## 🧩 10. **Halaman Setting**
+
+**Tujuan:** mengatur parameter sistem global
+
+**Komponen:**
+
+* Durasi jam pelajaran (misal: `45 menit`)
+* Waktu mulai sekolah (misal: `07:00`)
+* Switch “Hari Senin ada Upacara?”
+* Tombol `Simpan` (manual save)
+* Info kecil “Perubahan akan diterapkan mulai hari berikutnya”
+
+---
+
+## 🧩 11. **Halaman Log Aktivitas**
+
+**Tujuan:** memantau siapa yang mengubah data dan kapan
+
+**Komponen:**
+
+* Tabel log:
+
+  * Kolom: `Tanggal`, `Nama Guru Piket`, `Aksi`, `Deskripsi`, `Waktu`
+* Filter per tanggal atau guru
+* Tidak ada tombol export (hanya view)
+* Tombol `Hapus Log Lama (>30 hari)` (khusus superadmin)
+
+---
+
+## 🧩 12. **Halaman Export Data**
+
+**Tujuan:** export laporan absensi ke Excel
+
+**Komponen:**
+
+* Pilih jenis data:
+
+  * Absensi Guru Kantor
+  * Absensi Mengajar
+  * Jadwal Pelajaran
+* Filter rentang tanggal
+* Tombol `Export ke Excel`
+* File tersimpan ke `/storage/export/` + notifikasi berhasil
+
+---
+
