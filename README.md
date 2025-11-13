@@ -380,16 +380,104 @@ Berikut adalah dokumen spesifikasi fitur lengkap dan terperinci (12 modul) yang 
 * `log_aktivitas` (id_log, id_user, aksi, detail, waktu, ip, agent)
 
 ---
-
-## Rekomendasi Langkah Berikut (untuk tim)
-
-1. **Review requirement**: Pastikan semua stakeholder (kepala sekolah, guru, admin TU) setuju dengan daftar ini.
-2. **Buat ERD**: Konversi lampiran skema tabel ke ERD lengkap (primary key, foreign key, tipe data).
-3. **Wireframe UI**: Desain wireframe untuk tiap role (Superadmin, Guru Piket, Siswa), fokus pada alur absensi & auto-save.
-4. **Sprint Planning**: Bagi implementasi menjadi sprint (misal: Sprint 1 = Auth + Manajemen User + Absensi Kehadiran; Sprint 2 = Jadwal & Absensi Mengajar; Sprint 3 = KBM/Upacara + Log + Export).
-5. **Test cases**: Susun acceptance test untuk tiap fitur (scenario: upacara aktif, kelas non-KBM, guru pengganti dll).
-6. **Implementasi & QA**: Coding → Unit test/manual test → UAT dengan pengguna sebenarnya (guru piket & TU).
-
----
-
-Kalau kamu mau, aku bisa langsung bantu **membuat ERD** dari skema di atas dan **wireframe UI** (halaman Dashboard Guru Piket & Superadmin) sebagai bahan presentasi ke tim. Mana yang mau kita siapkan dulu untuk diserahkan?
+##📁 Struktur Folder Sistem Absensi Guru (PHP Native + PDO)
+```
+project_absensi_guru/
+│
+├── 📁 app/
+│   ├── 📁 config/
+│   │   ├── database.php        # Koneksi PDO ke MySQL
+│   │   ├── app.php             # Konfigurasi global (timezone, session, dsb)
+│   │   └── auth.php            # Middleware otentikasi dan role
+│   │
+│   ├── 📁 controllers/
+│   │   ├── AuthController.php          # Login, logout
+│   │   ├── DashboardController.php     # Halaman utama per role
+│   │   ├── GuruController.php          # CRUD data guru
+│   │   ├── JadwalController.php        # CRUD jadwal mapel
+│   │   ├── AbsensiKantorController.php # Absensi guru hadir/izin/sakit
+│   │   ├── AbsensiKelasController.php  # Absensi guru mengajar di kelas
+│   │   ├── KelasController.php         # CRUD data kelas
+│   │   ├── MapelController.php         # CRUD data mata pelajaran
+│   │   ├── SettingController.php       # Setting upacara, durasi jam pelajaran
+│   │   ├── LogController.php           # Menampilkan log aktivitas
+│   │   └── ExportController.php        # Export data ke Excel
+│   │
+│   ├── 📁 models/
+│   │   ├── Guru.php
+│   │   ├── Jadwal.php
+│   │   ├── AbsensiKantor.php
+│   │   ├── AbsensiKelas.php
+│   │   ├── Kelas.php
+│   │   ├── Mapel.php
+│   │   ├── Setting.php
+│   │   └── Log.php
+│   │
+│   ├── 📁 helpers/
+│   │   ├── functions.php        # Fungsi umum (format tanggal, jam, dsb)
+│   │   ├── auth_helper.php      # Fungsi cek login dan role
+│   │   └── response_helper.php  # Fungsi untuk JSON/AJAX
+│   │
+│   └── 📁 views/
+│       ├── 📁 layouts/
+│       │   ├── header.php
+│       │   ├── sidebar.php
+│       │   ├── footer.php
+│       │
+│       ├── 📁 auth/
+│       │   └── login.php
+│       │
+│       ├── 📁 dashboard/
+│       │   ├── superadmin.php
+│       │   └── gurupiket.php
+│       │
+│       ├── 📁 guru/
+│       │   └── index.php
+│       │
+│       ├── 📁 jadwal/
+│       │   ├── index.php
+│       │   └── form.php
+│       │
+│       ├── 📁 absensi_kantor/
+│       │   └── index.php
+│       │
+│       ├── 📁 absensi_kelas/
+│       │   └── index.php
+│       │
+│       ├── 📁 kelas/
+│       │   └── index.php
+│       │
+│       ├── 📁 mapel/
+│       │   └── index.php
+│       │
+│       ├── 📁 setting/
+│       │   └── index.php
+│       │
+│       ├── 📁 log/
+│       │   └── index.php
+│       │
+│       └── 📁 export/
+│           └── index.php
+│
+├── 📁 public/
+│   ├── 📁 assets/
+│   │   ├── css/
+│   │   ├── js/
+│   │   └── img/
+│   ├── index.php                # Entry point (include controller)
+│   └── .htaccess                # Routing mod_rewrite
+│
+├── 📁 storage/
+│   ├── logs/                    # Log aktivitas (jika disimpan file)
+│   └── export/                  # Hasil export Excel
+│
+├── 📁 docker/
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   └── php.ini
+│
+├── .env                         # Konfigurasi environment (DB, base URL)
+├── composer.json                # Jika ingin autoloading namespace
+├── README.md                    # Dokumentasi proyek
+└── LICENSE                      # Lisensi
+```
