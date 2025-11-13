@@ -426,9 +426,3 @@ project_absensi_guru/
 
 ---
 
-Jika kamu mau, aku bisa langsung **generate:**
-
-* 1. **ERD visual** (format text diagram) atau
-* 2. **Wireframe kasar visual** (blok layout) untuk 3 halaman prioritas: Dashboard Guru Piket, Absensi Kehadiran, Absensi Mengajar,
-
-— pilih salah satu yang mau aku kerjakan sekarang supaya bisa kamu bawa ke tim desain/dev.
